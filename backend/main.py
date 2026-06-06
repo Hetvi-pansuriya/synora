@@ -1,15 +1,25 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from database import get_db, engine, Base
+from database import get_db, engine, Base, SessionLocal
 from models import Profile, Matchmaker, Note
 from matching import get_matches
 from gemini import generate_match_explanation, generate_intro_email
 from dotenv import load_dotenv
+from seed import seed
 import os
 
 load_dotenv()
 Base.metadata.create_all(bind=engine)
+
+Base.metadata.create_all(bind=engine)
+
+db = SessionLocal()
+
+if db.query(Profile).count() == 0:
+    seed()
+
+db.close()
 
 app = FastAPI(title="Synora API")
 
