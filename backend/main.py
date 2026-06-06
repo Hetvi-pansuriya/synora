@@ -16,10 +16,20 @@ Base.metadata.create_all(bind=engine)
 
 db = SessionLocal()
 
-if db.query(Profile).count() == 0:
-    seed()
+try:
+    count = db.query(Profile).count()
+    print(f"PROFILE COUNT: {count}")
 
-db.close()
+    if count == 0:
+        print("SEEDING DATABASE...")
+        seed()
+        print("DATABASE SEEDED SUCCESSFULLY")
+
+except Exception as e:
+    print("SEED ERROR:", e)
+
+finally:
+    db.close()
 
 app = FastAPI(title="Synora API")
 
