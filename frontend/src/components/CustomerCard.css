@@ -1,109 +1,127 @@
 .customer-card {
-  background: var(--white);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 18px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
   cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: var(--shadow-sm);
+  animation: fadeIn 0.22s ease both;
+  transition: box-shadow 0.18s, transform 0.18s, border-color 0.18s;
+  overflow: hidden;
 }
 
 .customer-card:hover {
-  border-color: var(--gold-light);
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
+  border-color: var(--color-accent-muted);
 }
 
-.cc-header {
+.customer-card-inner {
+  padding: 16px;
   display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  margin-bottom: 14px;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.cc-avatar-wrap {
-  position: relative;
+/* ── Top row ────────────────────────────────── */
+
+.customer-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.customer-photo {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 2px solid var(--color-accent-light);
   flex-shrink: 0;
 }
 
-.cc-avatar {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--border-light);
+.customer-photo.fallback {
+  display: grid;
+  place-items: center;
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+  font-size: 16px;
+  font-weight: 700;
 }
 
-.cc-avatar-fallback {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold-pale), var(--rose-pale));
-  color: var(--brown-mid);
-  font-family: var(--font-serif);
-  font-size: 18px;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--border-light);
-}
-
-.cc-verified {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 18px;
-  height: 18px;
-  background: #2e7d32;
-  border-radius: 50%;
-  color: white;
-  font-size: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--white);
-}
-
-.cc-info {
+.customer-headline {
   flex: 1;
   min-width: 0;
 }
 
-.cc-name {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin-bottom: 2px;
+.customer-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.cc-sub {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-bottom: 3px;
-}
-
-.cc-job {
-  font-size: 12px;
-  color: var(--text-secondary);
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.cc-footer {
+.customer-meta {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding-top: 12px;
-  border-top: 1px solid var(--border-light);
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
 }
 
-.cc-religion {
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.5px;
+.customer-meta .dot {
+  opacity: 0.4;
+}
+
+/* ── Divider ────────────────────────────────── */
+
+.customer-divider {
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* ── Detail rows ────────────────────────────── */
+
+.customer-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.customer-detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.customer-detail-row svg {
+  width: 13px;
+  height: 13px;
+  stroke: var(--color-text-muted);
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.customer-detail-row span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+/* ── Bottom badge row ───────────────────────── */
+
+.customer-card-bottom {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
 }

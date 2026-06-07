@@ -1,0 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --color-bg: #F4F7F6;
+  --color-surface: #FFFFFF;
+  --color-surface-2: #F7FAF9;
+  --color-surface-3: #EEF7F4;
+  --color-sidebar: #FFFFFF;
+  --color-sidebar-hover: #EEF7F4;
+  --color-sidebar-border: #DDE7E3;
+  --color-accent: #0F766E;
+  --color-accent-light: #E6F4F1;
+  --color-accent-dark: #115E59;
+  --color-accent-muted: #8DCFC4;
+  --color-text-primary: #17211F;
+  --color-text-secondary: #52615D;
+  --color-text-muted: #82918D;
+  --color-border: #E1E9E6;
+  --color-border-strong: #C9D6D2;
+  --color-success: #059669;
+  --color-success-bg: #ECFDF5;
+  --color-warning: #D97706;
+  --color-warning-bg: #FFF7ED;
+  --color-danger: #DC2626;
+  --color-danger-bg: #FEF2F2;
+  --color-info: #2563EB;
+  --color-info-bg: #EFF6FF;
+  --color-matched-bg: #E6F4F1;
+  --color-matched-text: #115E59;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 3px rgba(15, 35, 30, 0.06), 0 1px 2px rgba(15, 35, 30, 0.04);
+  --shadow-md: 0 4px 16px rgba(15, 35, 30, 0.08), 0 1px 4px rgba(15, 35, 30, 0.06);
+  --shadow-lg: 0 12px 32px rgba(15, 35, 30, 0.12), 0 4px 12px rgba(15, 35, 30, 0.08);
+  --shadow-accent: 0 8px 24px rgba(15, 118, 110, 0.22);
+  --sidebar-width: 240px;
+  --topbar-height: 58px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-muted);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  transition: all 0.18s ease;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ── Animations ─────────────────────────────────────────────── */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes progressGrow {
+  from { width: 0%; }
+  to   { width: 85%; }
+}
+
+.page-fade {
+  animation: fadeIn 0.22s ease;
+}
+
+/* ── Shared field controls ──────────────────────────────────── */
+
+.field-control {
+  height: 36px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  padding: 0 10px;
+  font-size: 13px;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2382918D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.field-control:focus {
+  border-color: var(--color-accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+}
+
+.spinner {
+  border-radius: var(--radius-full);
+  animation: spin 0.9s linear infinite;
+}
+
+/* ── Verified pill (shared) ─────────────────────────────────── */
+
+.verified-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid rgba(5, 150, 105, 0.2);
+}
