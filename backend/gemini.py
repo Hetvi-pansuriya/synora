@@ -35,7 +35,7 @@ Keep it under 60 words.
 
     try:
         response = client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-2.0-flash-lite",
             contents=prompt
         )
         return response.text.strip()
@@ -75,7 +75,7 @@ Rules:
 
     try:
         response = client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-2.0-flash-lite",
             contents=prompt
         )
         return response.text.strip()
