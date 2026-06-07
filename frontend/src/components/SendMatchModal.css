@@ -164,13 +164,107 @@
   padding: 0 20px 16px;
 }
 
+.email-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
 .email-preview-label {
   font-size: 10px;
   font-weight: 700;
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  margin-bottom: 8px;
+}
+
+/* ── AI Generate Button ──────────────────────────── */
+
+.ai-generate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: var(--radius-full);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+  background: linear-gradient(135deg, #7c3aed18, #db277718);
+  color: #7c3aed;
+  border-color: #7c3aed40;
+  letter-spacing: 0.01em;
+}
+
+.ai-generate-btn svg {
+  width: 12px;
+  height: 12px;
+  stroke: none;
+  fill: currentColor;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.ai-sparkle-icon {
+  animation: sparkle-pulse 2s ease-in-out infinite;
+}
+
+@keyframes sparkle-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(1.2) rotate(15deg); opacity: 0.8; }
+}
+
+.ai-generate-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #7c3aed28, #db277728);
+  border-color: #7c3aed80;
+  box-shadow: 0 2px 10px rgba(124, 58, 237, 0.2);
+  transform: translateY(-1px);
+}
+
+.ai-generate-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.ai-generate-btn.generating {
+  background: linear-gradient(135deg, #7c3aed20, #db277720);
+  color: #7c3aed;
+  border-color: #7c3aed50;
+  animation: ai-glow 1.2s ease-in-out infinite;
+}
+
+@keyframes ai-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15); }
+}
+
+.ai-generate-btn.done {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border-color: rgba(5, 150, 105, 0.3);
+}
+
+.ai-generate-btn.done svg {
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ai-spinner {
+  width: 11px;
+  height: 11px;
+  border: 2px solid rgba(124, 58, 237, 0.3);
+  border-top-color: #7c3aed;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
 }
 
 .email-preview {
@@ -185,6 +279,31 @@
   overflow-y: auto;
   white-space: pre-wrap;
   word-break: break-word;
+  transition: opacity 0.3s ease;
+}
+
+.email-preview.shimmer {
+  position: relative;
+  overflow: hidden;
+  opacity: 0.55;
+}
+
+.email-preview.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(124, 58, 237, 0.08) 50%,
+    transparent 100%
+  );
+  animation: shimmer-sweep 1.2s ease-in-out infinite;
+}
+
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 /* ── Actions ─────────────────────────────────────── */

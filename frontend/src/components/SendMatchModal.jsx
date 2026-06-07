@@ -10,9 +10,10 @@ function scoreKind(score) {
 }
 
 function SendMatchModal({ match, customer, onClose, onSent }) {
-  void API_BASE;
   const [copied, setCopied] = useState(false);
   const [sendState, setSendState] = useState('idle');
+  const [emailText, setEmailText] = useState(match.intro_email || '');
+  const [aiState, setAiState] = useState('idle'); // 'idle' | 'generating' | 'done'
   const kind = scoreKind(match.score);
   const matchInitials = getInitials(match.first_name, match.last_name);
 
@@ -21,7 +22,7 @@ function SendMatchModal({ match, customer, onClose, onSent }) {
   const senderName = loggedInUser.name || loggedInUser.username || 'Matchmaker';
 
   const copyEmail = async () => {
-    await navigator.clipboard.writeText(match.intro_email || '');
+    await navigator.clipboard.writeText(emailText || '');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -36,6 +37,30 @@ function SendMatchModal({ match, customer, onClose, onSent }) {
         onSent(match);
       }, 600);
     }, 1200);
+  };
+
+  const generateEmailWithAI = async () => {
+    if (aiState === 'generating') return;
+    setAiState('generating');
+    try {
+      const res = await fetch(`${API_BASE}/ai/intro-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customer_id: customer.id,
+          match_id: match.id,
+          score: match.score || 0,
+          strengths: match.strengths || [],
+        }),
+      });
+      if (!res.ok) throw new Error('Failed to generate');
+      const data = await res.json();
+      setEmailText(data.email || emailText);
+      setAiState('done');
+      setTimeout(() => setAiState('idle'), 3000);
+    } catch {
+      setAiState('idle');
+    }
   };
 
   return (
@@ -74,9 +99,38 @@ function SendMatchModal({ match, customer, onClose, onSent }) {
 
         {/* Email content */}
         <div className="email-preview-wrap">
-          <div className="email-preview-label">Email Draft</div>
-          <div className="email-preview">
-            {match.intro_email || 'No introduction email was generated for this match.'}
+          <div className="email-preview-header">
+            <div className="email-preview-label">Email Draft</div>
+            <button
+              type="button"
+              id="generate-ai-email-btn"
+              className={`ai-generate-btn ${aiState}`}
+              onClick={generateEmailWithAI}
+              disabled={aiState === 'generating'}
+              aria-label="Generate email with AI"
+            >
+              {aiState === 'generating' ? (
+                <>
+                  <span className="ai-spinner" />
+                  Generating…
+                </>
+              ) : aiState === 'done' ? (
+                <>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m20 6-11 11-5-5" /></svg>
+                  Generated!
+                </>
+              ) : (
+                <>
+                  <svg viewBox="0 0 24 24" aria-hidden="true" className="ai-sparkle-icon">
+                    <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" />
+                  </svg>
+                  Generate Email with AI
+                </>
+              )}
+            </button>
+          </div>
+          <div className={`email-preview ${aiState === 'generating' ? 'shimmer' : ''}`}>
+            {emailText || 'No introduction email was generated for this match.'}
           </div>
         </div>
 
@@ -86,7 +140,7 @@ function SendMatchModal({ match, customer, onClose, onSent }) {
             type="button"
             className={`copy-button ${copied ? 'copied' : ''}`}
             onClick={copyEmail}
-            disabled={!match.intro_email}
+            disabled={!emailText}
           >
             {copied ? (
               <>

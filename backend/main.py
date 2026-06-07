@@ -210,7 +210,9 @@ def get_intro_email(data: dict, db: Session = Depends(get_db)):
     match = db.query(Profile).filter(Profile.id == data["match_id"]).first()
     if not customer or not match:
         raise HTTPException(status_code=404, detail="Profile not found")
-    email = generate_intro_email(customer, match, 0, [])
+    score = data.get("score", 0)
+    strengths = data.get("strengths", [])
+    email = generate_intro_email(customer, match, score, strengths)
     return {"email": email}
 
 @app.get("/")
