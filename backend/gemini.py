@@ -1,17 +1,12 @@
 from dotenv import load_dotenv
-import google.generativeai as genai
+from google import genai
 import os
 
 load_dotenv()
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel("gemini-2.5-flash")
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 def generate_match_explanation(customer, match, strengths, concerns, score):
-    """
-    Generates a warm 2-3 sentence explanation of why this is a good match.
-    Uses customer and match details + compatibility data.
-    """
     strengths_text = ", ".join(strengths[:3]) if strengths else "shared values"
     concerns_text = ", ".join(concerns[:2]) if concerns else "none"
     label = "High Potential" if score >= 75 else "Good Match" if score >= 55 else "Possible Match"
@@ -39,17 +34,17 @@ Keep it under 60 words.
 """
 
     try:
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt
+        )
         return response.text.strip()
-    except Exception:
+    except Exception as e:
+        print(f"Gemini explanation error: {e}")
         return f"{match.first_name} and {customer.first_name} share {strengths_text}, making this a {label.lower()} with strong potential for a meaningful connection."
 
 
 def generate_intro_email(customer, match, score, strengths):
-    """
-    Generates a personalized introduction email from the matchmaker
-    to send to the customer introducing their match.
-    """
     strengths_text = ", ".join(strengths[:2]) if strengths else "compatible values and life goals"
 
     prompt = f"""
@@ -79,9 +74,13 @@ Rules:
 """
 
     try:
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt
+        )
         return response.text.strip()
-    except Exception:
+    except Exception as e:
+        print(f"Gemini email error: {e}")
         return f"""Dear {customer.first_name},
 
 We are delighted to introduce you to {match.first_name} {match.last_name}, a {match.age}-year-old {match.designation} based in {match.city}. They share {strengths_text} with you, which we believe creates a strong foundation for a meaningful relationship.
