@@ -7,6 +7,7 @@ import CustomerDetail from './components/CustomerDetail';
 import MatchesView from './components/MatchesView';
 import Analytics from './components/Analytics';
 import Reports from './components/Reports';
+import LandingPage from './components/LandingPage';
 
 const ProtectedRoute = ({ children }) => {
   const user = localStorage.getItem('synora_user');
@@ -20,7 +21,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/dashboard"

@@ -11,7 +11,7 @@
 }
 
 .login-brand-panel {
-  background: #E6F4F1;
+  background: var(--color-surface-3);
   display: flex;
   align-items: center;
   justify-content: center;
